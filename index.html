@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=3.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    
+    
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="C:\Users\Boopesh\OneDrive\Pictures\my pic\IMG-20260209-WA0001.jpg" height="200" width="200" margin-right="auto " margin-left="auto" align-items="center" >
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="cart-icon" onclick="toggleCart()">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cart-count">0</span>
+            </div>
+        </nav>
+    </header>
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h2>Authentic Flavors, Pure Spices</h2>
+            <p>Bring the heart of Indian cuisine to your kitchen with our premium hand-picked masalas.</p>
+            <a href="#products" class="btn">Shop Now</a>
+        </div>
+    </section>
+
+    <section id="products" class="products">
+        <h2 class="section-title">Our Best Sellers</h2>
+        <div class="product-grid" id="product-grid">
+            <!-- Products will be loaded by JavaScript -->
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="about-container">
+            <div class="about-text">
+                <h2>Our Story</h2>
+                <p>Queen'Masala, we believe that the secret to a great meal lies in the quality of the spices. For over three decades, we have been sourcing the finest raw ingredients directly from farmers across India to bring you authentic, aromatic, and pure masalas.</p>
+                <p>No additives, no preservatives—just the pure essence of nature.</p>
+            </div>
+            <div class="about-image">
+                <img src="C:\Users\Boopesh\OneDrive\Pictures\my pic\IMG-20260209-WA0001.jpg" alt="Queen Masala" height="400" width="400">
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <h2>Get In Touch</h2>
+        <div class="contact-container">
+            <form id="contact-form">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <textarea placeholder="Your Message" required></textarea>
+                <button type="submit" class="btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Queen's Masala. All rights reserved </p>
+    </footer>
+
+    <!-- Shopping Cart Sidebar -->
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <span class="close-cart" onclick="toggleCart()">&times;</span>
+        </div>
+        <div id="cart-items" class="cart-items">
+            <!-- Cart items will be loaded by JavaScript -->
+        </div>
+        <div class="cart-footer">
+            <div class="total">
+                Total: $<span id="cart-total">0.00</span>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">Checkout</button>
+        </div>
+    </div>
+<li><a href="login.html">Login</a></li>
+<li><a href="profile.html">My Profile</a></li>
+
+    <script src="script.js"></script>
+</body>
+</html>
