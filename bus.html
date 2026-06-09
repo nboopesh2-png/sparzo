@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shri Senthur Travels (ASP)</title>
+    <style>
+        /* --- Reset & Global Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #006103; /* Premium Crimson/Red Accent */
+            --secondary: #f80000; /* Deep Blue Accent */
+            --dark: #212121;
+            --light: #f5f5f5;
+            --white: #ffffff;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* --- Header & Navigation --- */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .logo span {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            background: #e3f2fd;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=1200') no-repeat center center/cover;
+            height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--white);
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+        }
+
+        /* --- Search Engine Dashboard --- */
+        .search-container {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 900px;
+            padding: 2rem;
+            color: var(--dark);
+        }
+
+        .search-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #edf2f7;
+            padding-bottom: 0.5rem;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 700;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            color: #718096;
+            position: relative;
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -9px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary);
+        }
+
+        .search-form {
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            align-items: flex-end;
+        }
+
+        .search-form.active {
+            display: grid;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            text-align: left;
+        }
+
+        .input-group label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #4a5568;
+            text-transform: uppercase;
+        }
+
+        .input-group input, .input-group select {
+            padding: 0.75rem;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        .search-btn {
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .search-btn:hover {
+            background-color: #b71c1c;
+        }
+
+        /* --- Main Content Dynamic Cards --- */
+        .main-section {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 60px;
+            height: 4px;
+            background-color: var(--secondary);
+            border-radius: 2px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-tag {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 4px 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-info {
+            font-size: 0.9rem;
+            color: #718096;
+            margin-bottom: 1rem;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #edf2f7;
+            padding-top: 1rem;
+        }
+
+        .price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .book-btn {
+            background-color: var(--secondary);
+            color: var(--white);
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .book-btn:hover {
+            background-color: #1565c0;
+        }
+
+        /* --- Dynamic Modal Structure --- */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #a0aec0;
+        }
+
+        .close-modal:hover {
+            color: var(--dark);
+        }
+
+        .modal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        /* --- Footer Section --- */
+        footer {
+            background-color: #1a202c;
+            color: #a0aec0;
+            padding: 3rem 2rem 1rem 2rem;
+            margin-top: 5rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+            border-bottom: 1px solid #2d3748;
+            padding-bottom: 2rem;
+        }
+
+        .footer-col h3 {
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-col ul li a {
+            color: #a0aec0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--white);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            font-size: 0.85rem;
+        }
+
+        /* Responsive changes */
+        @media(max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2.2rem; }
+            .search-container { padding: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="nav-container">
+            <a href="#" class="logo">Shri Senthur <span>ASP Group</span></a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#explore">Tour Packages</a></li>
+                <li><a href="#explore">Bus Routes</a></li>
+                <li><a href="#about">About Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <h1>Explore The World Smoothly</h1>
+        <p>Premium Bus Bookings & Tour Packages Crafted For Your Comfort</p>
+        
+        <div class="search-container">
+            <div class="search-tabs">
+                <button class="tab-btn active" onclick="switchTab('bus')">Bus Booking</button>
+                <button class="tab-btn" onclick="switchTab('tour')">Tour & Travels</button>
+            </div>
+
+            <form id="bus-form" class="search-form active" onsubmit="handleSearch(event, 'bus')">
+                <div class="input-group">
+                    <label>From</label>
+                    <input type="text" placeholder="Departure City" required id="bus-from">
+                </div>
+                <div class="input-group">
+                    <label>To</label>
+                    <input type="text" placeholder="Destination City" required id="bus-to">
+                </div>
+                <div class="input-group">
+                    <label>Date</label>
+                    <input type="date" required>
+                </div>
+                <button type="submit" class="search-btn">Search Buses</button>
+            </form>
+
+            <form id="tour-form" class="search-form" onsubmit="handleSearch(event, 'tour')">
+                <div class="input-group">
+                    <label>Destination</label>
+                    <select id="tour-destination">
+                        <option value="all">All Holiday Packages</option>
+                        <option value="hill">Hill Station Gateways</option>
+                        <option value="beach">Tropical Beach Retreats</option>
+                        <option value="heritage">Heritage & Temple Tours</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Month</label>
+                    <input type="month">
+                </div>
+                <button type="submit" class="search-btn">Find Packages</button>
+            </form>
+        </div>
+    </section>
+
+    <main class="main-section" id="explore">
+        <h2 class="section-title" id="display-title">Trending Travel Offers</h2>
+        <div class="cards-grid" id="cards-container">
+            </div>
+    </main>
+
+    <div class="modal" id="bookingModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Confirm Your Booking</h2>
+            <p style="color: #718096; margin-bottom: 1rem;" id="modalSubtitle"></p>
+            <hr>
+            <form class="modal-form" onsubmit="confirmBooking(event)">
+                <div class="input-group">
+                    <label>Full Name</label>
+                    <input type="text" required placeholder="Enter primary passenger name">
+                </div>
+                <div class="input-group">
+                    <label>Phone Number</label>
+                    <input type="tel" required placeholder="Enter mobile number">
+                </div>
+                <div class="input-group" id="conditional-field">
+                    <label>Seats / Members</label>
+                    <input type="number" min="1" max="10" value="1" required>
+                </div>
+                <button type="submit" class="search-btn" style="background-color: var(--secondary);">Proceed to Secure Payment</button>
+            </form>
+        </div>
+    </div>
+
+    <footer id="about">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>Shri Senthur Travels</h3>
+                <p>An official division of ASP booking groups. Delivering dependable luxury transit solutions and tailored tour packages all over the region.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Quick Utilities</h3>
+                <ul>
+                    <li><a href="#">Print Ticket</a></li>
+                    <li><a href="#">Cancel Booking</a></li>
+                    <li><a href="#">Track Bus Status</a></li>
+                    <li><a href="#">Privacy Framework</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Contact & Support</h3>
+                <p>Head Office: ASP Complex, Main Road</p>
+                <p>Phone: +91 98765 43210</p>
+                <p>Email: support@shrisenthurasp.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 Shri Senthur Travels (ASP). All rights reserved to execution panel.
+        </div>
+    </footer>
+
+    <script>
+        // Catalog Mocking Dataset
+        const database = {
+            buses: [
+                { id: 'b1', title: 'Chennai to Coimbatore Multi-Axle Scania', info: 'AC Sleeper 2+1 | Night Express', price: '950', img: 'https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&q=80&w=500', tag: 'Top Rated' },
+                { id: 'b2', title: 'Bangalore to Madurai Luxury Sleeper', info: 'Premium Volvo A/C | USB Chargers | Rest Stops', price: '₹800', img: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=500', tag: 'Fastest Route' },
+                { id: 'b3', title: 'Trichy to Chennai HighTech Seater', info: 'Non-AC Air Suspension Luxury Seater', price: '₹450', img: 'https://images.unsplash.com/photo-1561361531-9952a6016e5d?auto=format&fit=crop&q=80&w=500', tag: 'Budget Saver' }
+            ],
+            tours: [
+                { id: 't1', title: 'Ooty & Coonoor Panoramic Escapade', info: '3 Days & 2 Nights ', price: '₹1,999', img: 'https://images.unsplash.com/photo-1589136777351-fdc9c9400c7e?auto=format&fit=crop&q=80&w=500', tag: 'Hill Station' },
+                { id: 't2', title: 'Kerala Backwaters Luxury Cruise Tour', info: '4 Days & 3 Nights ', price: '₹2,499', img: 'https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=80&w=500', tag: 'Best Seller' },
+                { id: 't3', title: 'Divine Southern Temple Heritage Trail', info: '2 Days | Madurai, Rameshwaram guide inclusive package', price: '₹1,500', img: 'https://images.unsplash.com/photo-1600100397608-f010e42ec393?auto=format&fit=crop&q=80&w=500', tag: 'Heritage' }
+            ]
+        };
+
+        // Render Cards dynamically based on data state
+        function renderCards(type, dataset = null) {
+            const container = document.getElementById('cards-container');
+            const titleElement = document.getElementById('display-title');
+            container.innerHTML = ''; 
+
+            const items = dataset || (type === 'bus' ? database.buses : database.tours);
+            titleElement.innerText = type === 'bus' ? 'Available Premium Bus Routes' : 'Exclusive Tour Packages';
+
+            if(items.length === 0) {
+                container.innerHTML = `<p style="grid-column: 1/-1; text-align:center; padding: 2rem; color:#718096;">No transit vectors found for your specific query parameters. Try resetting filters.</p>`;
+                return;
+            }
+
+            items.forEach(item => {
+                const cardHTML = `
+                    <div class="card">
+                        <img src="${item.img}" alt="${item.title}" class="card-img">
+                        <div class="card-content">
+                            <span class="card-tag">${item.tag}</span>
+                            <h3 class="card-title">${item.title}</h3>
+                            <p class="card-info">${item.info}</p>
+                            <div class="card-meta">
+                                <span class="price">${item.price}</span>
+                                <button class="book-btn" onclick="openModal('${item.title}', '${item.price}')">Book Now</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += cardHTML;
+            });
+        }
+
+        // Tab selection engine switches forms
+        function switchTab(type) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.search-form').forEach(form => form.classList.remove('active'));
+
+            if (type === 'bus') {
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+                document.getElementById('bus-form').classList.add('active');
+                renderCards('bus');
+            } else {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                document.getElementById('tour-form').classList.add('active');
+                renderCards('tour');
+            }
+        }
+
+        // Mock search query processing filter logic
+        function handleSearch(event, type) {
+            event.preventDefault();
+            if (type === 'bus') {
+                const fromInput = document.getElementById('bus-from').value.toLowerCase();
+                const toInput = document.getElementById('bus-to').value.toLowerCase();
+                
+                const filteredBuses = database.buses.filter(bus => 
+                    bus.title.toLowerCase().includes(fromInput) || bus.title.toLowerCase().includes(toInput)
+                );
+                renderCards('bus', filteredBuses);
+            } else {
+                const destinationVal = document.getElementById('tour-destination').value;
+                if(destinationVal === 'all') {
+                    renderCards('tour');
+                } else {
+                    const tagMapping = { hill: 'Hill Station', beach: 'Best Seller', heritage: 'Heritage' };
+                    const filteredTours = database.tours.filter(tour => tour.tag === tagMapping[destinationVal]);
+                    renderCards('tour', filteredTours);
+                }
+            }
+        }
+
+        // Open checkout window wrapper
+        function openModal(title, price) {
+            document.getElementById('bookingModal').style.display = 'flex';
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalSubtitle').innerText = `Base Fare Rates: ${price} inclusive of GST parameters.`;
+        }
+
+        // Close booking windows
+        function closeModal() {
+            document.getElementById('bookingModal').style.display = 'none';
+        }
+
+        // Process final transactional dispatch event simulation
+        function confirmBooking(event) {
+            event.preventDefault();
+            alert('Booking Successful! Your reservation structure has been logged in Shri Senthur database logs. Ticket details dispatched via SMS.');
+            closeModal();
+        }
+
+        // Initial setup trigger state on launch load
+        window.onload = function() {
+            renderCards('bus');
+        };
+    </script>
+</body>
+</html>
